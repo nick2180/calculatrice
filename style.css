@@ -1,4 +1,5 @@
-#resultat {
+#resultat,
+#zero {
     min-width: 12em;
     min-height: 3em;
 }

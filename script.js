@@ -38,32 +38,34 @@ sept.addEventListener('click', onClick);
 huit.addEventListener('click', onClick);
 neuf.addEventListener('click', onClick);
 
-var passerAsecondNombre = false;
+var passerAuSecondNombre = false;
+var finOperation = false;
 
 
 function onClick() {
 
-    if (!passerAsecondNombre) {
+    if (finOperation && passerAuSecondNombre) {
+        nb1 = 0;
+        nb2 = 0;
+        passerAuSecondNombre = false;
+        finOperation = false;
+    }
+
+    if (!passerAuSecondNombre) {
         nb1 += this.innerHTML;
         resultat.innerHTML = Number(nb1);
         nb1 = Number(nb1);
     } else {
         nb2 += this.innerHTML;
 
-
         resultat.innerHTML += this.innerHTML;
-
     }
-
 }
 
 function typeOperation() {
-
-
     opperand = this.id;
 
-    passerAsecondNombre = true;
-
+    passerAuSecondNombre = true;
 
     if (opperand === 'plus') {
         resultat.innerHTML = nb1 + ' + ';
@@ -77,8 +79,6 @@ function typeOperation() {
     else {
         resultat.innerHTML = nb1 + ' * ';
     }
-
-
 }
 
 c.addEventListener('click', effacer);
@@ -88,7 +88,7 @@ function effacer() {
     nb1 = 0;
     nb2 = 0;
     opperand = '';
-    passerAsecondNombre = false;
+    passerAuSecondNombre = false;
 }
 
 egale.addEventListener('click', calculerResultat);
@@ -112,5 +112,7 @@ function calculerResultat() {
     }
 
     resultat.innerHTML = resultatFinal;
+
+    finOperation = true;
 }
 
