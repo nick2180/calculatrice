@@ -41,6 +41,8 @@ neuf.addEventListener('click', onClick);
 
 var passerAuSecondNombre = false;
 var finOperation = false;
+var calculApresEgale = false;
+var ajoutOperation = false;
 
 
 function onClick() {
@@ -52,10 +54,16 @@ function onClick() {
         finOperation = false;
     }
 
+    if (ajoutOperation) {
+        nb2 += this.innerHTML;
+        nb2 = Number(nb2);
+    }
+
     if (!passerAuSecondNombre) {
         nb1 += this.innerHTML;
-        resultat.innerHTML = Number(nb1);
         nb1 = Number(nb1);
+        resultat.innerHTML = nb1;
+
     } else {
         nb2 += this.innerHTML;
 
@@ -90,13 +98,20 @@ function typeOperation() {
         finOperation = false;
     }
 
+    if (passerAuSecondNombre && nb2 !== 0) {
+        calculerResultat();
+        resultat.innerHTML = nb1 + operation;
+        passerAuSecondNombre = false;
+        finOperation = false;
+    }
+
     passerAuSecondNombre = true;
 }
 
 c.addEventListener('click', effacer);
 
 function effacer() {
-    resultat.innerHTML = '';
+    resultat.innerHTML = nb1;
     nb1 = 0;
     nb2 = 0;
     opperand = '';
@@ -144,12 +159,14 @@ function calculerResultat() {
         resultatFinal = nb1 * nb2;
     }
 
-    resultat.innerHTML = resultatFinal;
+
     resultatFinal = Number(resultatFinal);
+    resultat.innerHTML = resultatFinal;
 
     nb1 = resultatFinal;
     nb2 = 0;
 
     finOperation = true;
+    calculApresEgale = true;
 }
 
