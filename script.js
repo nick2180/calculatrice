@@ -2,7 +2,7 @@ var plus = document.getElementById('plus');
 var moins = document.getElementById('moins');
 var multiplier = document.getElementById('multiplier');
 var diviser = document.getElementById('diviser');
-var retour = document.getElementById('retour');
+var retour = document.getElementById('retourArriere');
 var egale = document.getElementById('egale');
 var c = document.getElementById('c');
 var zero = document.getElementById('zero');
@@ -18,6 +18,7 @@ var neuf = document.getElementById('neuf');
 var resultat = document.getElementById('resultat');
 
 var opperand;
+var operation;
 
 var nb1 = 0;
 var nb2 = 0;
@@ -65,20 +66,31 @@ function onClick() {
 function typeOperation() {
     opperand = this.id;
 
-    passerAuSecondNombre = true;
-
     if (opperand === 'plus') {
-        resultat.innerHTML = nb1 + ' + ';
+        operation = ' + ';
+        resultat.innerHTML = nb1 + operation;
+
     }
     else if (opperand === 'moins') {
-        resultat.innerHTML = nb1 + ' - ';
+        operation = ' - ';
+        resultat.innerHTML = nb1 + operation;
     }
     else if (opperand === 'diviser') {
-        resultat.innerHTML = nb1 + ' / ';
+        operation = ' / ';
+        resultat.innerHTML = nb1 + operation;
     }
     else {
-        resultat.innerHTML = nb1 + ' * ';
+        operation = ' * ';
+        resultat.innerHTML = nb1 + operation;
     }
+
+    if (passerAuSecondNombre && finOperation) {
+        resultat.innerHTML = resultat.innerHTML.slice(0, -2) + operation;
+        passerAuSecondNombre = false;
+        finOperation = false;
+    }
+
+    passerAuSecondNombre = true;
 }
 
 c.addEventListener('click', effacer);
@@ -89,6 +101,27 @@ function effacer() {
     nb2 = 0;
     opperand = '';
     passerAuSecondNombre = false;
+}
+
+retour.addEventListener('click', retourArriere);
+
+function retourArriere() {
+
+    if (!passerAuSecondNombre) {
+        nb1 = String(nb1).slice(0, -1);
+        nb1 = Number(nb1);
+        resultat.innerHTML = nb1;
+    } else {
+        nb2 = String(nb2).slice(0, -1);
+        resultat.innerHTML = nb1 + operation + nb2;
+        nb2 = Number(nb2);
+    }
+
+    if (passerAuSecondNombre && nb2 === 0) {
+        operation = '';
+        passerAuSecondNombre = false;
+        resultat.innerHTML = nb1;
+    }
 }
 
 egale.addEventListener('click', calculerResultat);
@@ -105,13 +138,17 @@ function calculerResultat() {
         resultatFinal = nb1 - nb2;
     }
     else if (opperand === 'diviser') {
-        resultatFinal = nb1 / nb2;
+        (nb2 != 0) ? resultatFinal = nb1 / nb2 : resultatFinal = 'Impossible de diviser par 0';
     }
     else {
         resultatFinal = nb1 * nb2;
     }
 
     resultat.innerHTML = resultatFinal;
+    resultatFinal = Number(resultatFinal);
+
+    nb1 = resultatFinal;
+    nb2 = 0;
 
     finOperation = true;
 }
