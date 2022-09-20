@@ -85,6 +85,10 @@ c.addEventListener('click', effacer);
 
 function effacer() {
     resultat.innerHTML = '';
+    nb1 = 0;
+    nb2 = 0;
+    opperand = '';
+    passerAsecondNombre = false;
 }
 
 egale.addEventListener('click', calculerResultat);
